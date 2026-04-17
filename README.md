@@ -21,8 +21,6 @@
 - [Web Portals](#-web-portals)
 - [Security — ACL](#-security--acl)
 - [How to Run](#-how-to-run)
-- [Screenshots](#-screenshots)
-- [Project Structure](#-project-structure)
 
 ---
 
