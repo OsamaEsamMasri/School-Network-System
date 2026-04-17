@@ -295,75 +295,10 @@ sudo chown -R www-data:www-data /var/moodledata /var/www/html/moodle
 # Then open http://192.168.40.10/moodle to complete setup
 ```
 
----
-
-## 📸 Screenshots
-
-> Add your GNS3 topology screenshots and browser screenshots here
-
-| Screenshot | Description |
-|-----------|-------------|
-| `screenshots/topology.png` | Full GNS3 network topology |
-| `screenshots/vlan-config.png` | show vlan brief output |
-| `screenshots/dhcp-binding.png` | show ip dhcp binding |
-| `screenshots/acl-test.png` | ACL test — packet filtered |
-| `screenshots/moodle.png` | Moodle LMS dashboard |
-| `screenshots/admin-portal.png` | Admin web portal |
-
----
-
-## 📂 Project Structure
-
-```
-school-local-network/
-│
-├── README.md                    ← This file
-│
-├── configs/                     ← Cisco device configurations
-│   ├── MainRouter.txt
-│   ├── MainSwitch.txt
-│   ├── SW-Admin.txt
-│   ├── SW-Teachers.txt
-│   ├── SW-Students.txt
-│   └── SW-Servers.txt
-│
-├── server-configs/              ← Linux server configuration files
-│   ├── dhcpd.conf               ← ISC-DHCP configuration
-│   ├── named.conf.local         ← BIND9 zones
-│   ├── named.conf.options       ← BIND9 options
-│   ├── db.school.local          ← DNS forward zone
-│   ├── smb.conf                 ← Samba shares
-│   └── vsftpd.conf              ← FTP server config
-│
-├── web-portals/                 ← HTML web portals
-│   ├── index.html               ← Login page
-│   ├── admin.html               ← Admin dashboard
-│   ├── teacher.html             ← Teacher upload portal
-│   └── student.html             ← Student file browser
-│
-├── docs/                        ← Project documentation
-│   ├── report.docx              ← Full technical report
-│   └── presentation.pptx        ← Presentation slides
-│
-└── screenshots/                 ← Project screenshots
-    ├── topology.png
-    ├── vlan-config.png
-    └── ...
-```
-
----
-
 ## 👤 Author
 
-**[Your Name]**  
-Computer Networks Course — [University Name]  
-Academic Year 2025–2026
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
+Osama Masri
+Computer Networks Course — Najah National University 
 
 ---
 
