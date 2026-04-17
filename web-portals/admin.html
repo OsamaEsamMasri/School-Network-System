@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>لوحة الإدارة — شبكة المدرسة</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#060d1a;--bg2:#0b1628;--bg3:#0f2040;--blue:#1d4ed8;--blue2:#3b82f6;--blue3:#93c5fd;--red:#ef4444;--red2:#fca5a5;--green:#10b981;--green2:#6ee7b7;--gold:#f59e0b;--gold2:#fde68a;--purple:#7c3aed;--purple2:#c4b5fd;--teal:#0d9488;--teal2:#5eead4;--text:#f0f6ff;--text2:#8ba3c7;--text3:#3d5475;--border:rgba(59,130,246,0.12);--border2:rgba(59,130,246,0.25);--r:14px;--r2:8px;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;overflow-x:hidden;}
+body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background-image:linear-gradient(rgba(59,130,246,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(59,130,246,0.025) 1px,transparent 1px);background-size:32px 32px;z-index:0;pointer-events:none;}
+.orb{position:fixed;border-radius:50%;filter:blur(80px);opacity:.07;pointer-events:none;z-index:0;}
+.orb1{width:500px;height:500px;background:var(--blue);top:-100px;right:-100px;}
+.orb2{width:300px;height:300px;background:var(--purple);bottom:100px;left:-50px;}
+.sidebar{width:240px;background:var(--bg2);border-left:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;right:0;bottom:0;z-index:100;box-shadow:-4px 0 24px rgba(0,0,0,0.4);}
+.s-logo{padding:20px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;}
+.s-logo-ic{width:38px;height:38px;background:linear-gradient(135deg,var(--red),#dc2626);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 4px 12px rgba(239,68,68,0.3);}
+.s-logo-t{font-size:14px;font-weight:800;line-height:1.2;}
+.s-logo-s{font-size:10px;color:var(--text2);}
+.s-nav{padding:10px;flex:1;overflow-y:auto;}
+.s-group{margin-bottom:16px;}
+.s-group-lbl{font-size:9px;font-weight:800;color:var(--text3);letter-spacing:2px;padding:0 10px;margin-bottom:6px;}
+.s-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:var(--r2);cursor:pointer;font-size:13px;font-weight:500;color:var(--text2);margin-bottom:2px;transition:all .2s;border:1px solid transparent;}
+.s-item:hover{background:rgba(59,130,246,0.08);color:var(--text);}
+.s-item.active{background:rgba(239,68,68,0.12);color:var(--red2);border-color:rgba(239,68,68,0.2);}
+.s-item .ic{font-size:15px;width:18px;text-align:center;}
+.s-badge{margin-right:auto;background:var(--red);color:#fff;font-size:9px;padding:1px 6px;border-radius:99px;font-weight:800;}
+.s-foot{padding:10px;border-top:1px solid var(--border);}
+.s-user{display:flex;align-items:center;gap:8px;padding:10px 12px;background:rgba(239,68,68,0.06);border:1px solid rgba(239,68,68,0.15);border-radius:var(--r2);}
+.s-avatar{width:30px;height:30px;background:linear-gradient(135deg,var(--red),#dc2626);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;}
+.s-uinfo{font-size:12px;font-weight:700;line-height:1.1;}
+.s-uinfo span{display:block;font-size:10px;color:var(--text2);font-weight:400;}
+.s-links{display:flex;gap:6px;margin-top:8px;}
+.s-link{flex:1;padding:6px;text-align:center;border-radius:var(--r2);font-size:10px;font-weight:700;text-decoration:none;transition:all .2s;border:1px solid var(--border);}
+.s-link:hover{transform:translateY(-1px);}
+.s-link.purple{color:var(--purple2);border-color:rgba(124,58,237,0.3);background:rgba(124,58,237,0.06);}
+.s-link.blue{color:var(--blue3);border-color:rgba(59,130,246,0.3);background:rgba(59,130,246,0.06);}
+.s-link.teal{color:var(--teal2);border-color:rgba(13,148,136,0.3);background:rgba(13,148,136,0.06);}
+.main{margin-right:240px;flex:1;padding:24px;position:relative;z-index:1;}
+.topbar{display:flex;align-items:center;justify-content:space-between;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:12px 20px;margin-bottom:24px;}
+.tb-left h1{font-size:20px;font-weight:900;letter-spacing:-.5px;}
+.tb-left p{font-size:11px;color:var(--text2);margin-top:2px;}
+.tb-right{display:flex;align-items:center;gap:10px;}
+.tb-clock{font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--blue3);background:rgba(59,130,246,0.08);padding:6px 14px;border-radius:99px;border:1px solid rgba(59,130,246,0.2);}
+.tb-tag{background:rgba(239,68,68,0.12);color:var(--red2);font-size:11px;font-weight:800;padding:4px 12px;border-radius:99px;border:1px solid rgba(239,68,68,0.2);}
+.tb-refresh{width:32px;height:32px;border-radius:50%;background:rgba(59,130,246,0.08);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;transition:all .3s;}
+.tb-refresh:hover{background:rgba(59,130,246,0.15);transform:rotate(180deg);}
+.page{display:none;animation:fu .3s ease;}
+.page.active{display:block;}
+@keyframes fu{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px;}
+.stat{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:18px;position:relative;overflow:hidden;transition:all .3s;}
+.stat:hover{transform:translateY(-2px);border-color:var(--border2);}
+.stat::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+.stat.sb::after{background:linear-gradient(90deg,var(--blue),var(--blue2));}
+.stat.sg::after{background:linear-gradient(90deg,var(--green),var(--teal));}
+.stat.sr::after{background:linear-gradient(90deg,var(--red),#f87171);}
+.stat.sp::after{background:linear-gradient(90deg,var(--purple),#a855f7);}
+.stat.so::after{background:linear-gradient(90deg,var(--gold),var(--gold2));}
+.stat-ic{font-size:22px;margin-bottom:10px;}
+.stat-v{font-size:26px;font-weight:900;letter-spacing:-1px;margin-bottom:3px;font-family:'JetBrains Mono',monospace;}
+.stat-l{font-size:11px;color:var(--text2);}
+.stat-sub{font-size:10px;color:var(--green);margin-top:4px;}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:20px;}
+.card-t{font-size:13px;font-weight:700;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.card-t span{display:flex;align-items:center;gap:6px;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.g21{display:grid;grid-template-columns:2fr 1fr;gap:16px;}
+.mb{margin-bottom:16px;}
+table{width:100%;border-collapse:collapse;}
+th{padding:9px 12px;text-align:right;font-size:10px;font-weight:800;color:var(--blue3);background:rgba(59,130,246,0.05);border-bottom:1px solid var(--border);letter-spacing:.5px;}
+td{padding:10px 12px;font-size:12px;color:var(--text2);border-bottom:1px solid rgba(255,255,255,0.03);}
+tr:hover td{background:rgba(59,130,246,0.04);}
+td:first-child{color:var(--text);font-weight:600;}
+td code{font-family:'JetBrains Mono',monospace;font-size:11px;background:rgba(59,130,246,0.08);padding:2px 6px;border-radius:3px;color:var(--blue3);}
+.badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:99px;font-size:9px;font-weight:800;letter-spacing:.3px;}
+.b-blue{background:rgba(59,130,246,0.15);color:var(--blue3);}
+.b-green{background:rgba(16,185,129,0.12);color:var(--green2);}
+.b-red{background:rgba(239,68,68,0.12);color:var(--red2);}
+.b-gold{background:rgba(245,158,11,0.12);color:var(--gold2);}
+.b-purple{background:rgba(124,58,237,0.15);color:var(--purple2);}
+.b-teal{background:rgba(13,148,136,0.12);color:var(--teal2);}
+.dot{width:7px;height:7px;border-radius:50%;display:inline-block;flex-shrink:0;}
+.dot-on{background:var(--green);box-shadow:0 0 6px var(--green);animation:pulse 2s infinite;}
+.dot-off{background:var(--red);}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.dev-row{display:flex;align-items:center;gap:10px;padding:9px 12px;background:rgba(255,255,255,0.02);border-radius:var(--r2);margin-bottom:5px;transition:background .15s;border:1px solid transparent;}
+.dev-row:hover{background:rgba(59,130,246,0.06);border-color:var(--border);}
+.dev-name{font-size:12px;font-weight:700;flex:1;}
+.dev-ip{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text2);}
+.vlan-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;}
+.vlan-c{background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:var(--r2);padding:14px;transition:all .2s;}
+.vlan-c:hover{border-color:var(--border2);transform:translateY(-1px);}
+.vlan-num{font-size:9px;font-weight:800;letter-spacing:1.5px;margin-bottom:5px;}
+.vlan-name{font-size:15px;font-weight:800;margin-bottom:4px;}
+.vlan-net{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text2);margin-bottom:8px;}
+.vlan-bar{height:3px;border-radius:99px;background:rgba(255,255,255,0.06);overflow:hidden;}
+.vlan-fill{height:100%;border-radius:99px;transition:width 1s ease;}
+.prog{height:4px;background:rgba(255,255,255,0.06);border-radius:99px;overflow:hidden;margin-top:4px;}
+.prog-f{height:100%;border-radius:99px;transition:width 1.2s ease;}
+.log-box{background:rgba(0,0,0,0.4);border-radius:var(--r2);padding:12px;font-family:'JetBrains Mono',monospace;font-size:10px;line-height:1.9;max-height:170px;overflow-y:auto;border:1px solid rgba(255,255,255,0.04);}
+.log-ok{color:var(--green2);}
+.log-warn{color:var(--gold2);}
+.log-info{color:var(--blue3);}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:var(--r2);font-family:'Tajawal',sans-serif;font-size:12px;font-weight:700;cursor:pointer;border:none;transition:all .2s;}
+.btn:hover{transform:translateY(-1px);}
+.btn-p{background:var(--blue);color:#fff;}
+.btn-r{background:var(--red);color:#fff;}
+.btn-o{background:transparent;color:var(--blue3);border:1px solid rgba(59,130,246,0.3);}
+.btn-o:hover{background:rgba(59,130,246,0.08);}
+.btn-sm{padding:5px 10px;font-size:11px;}
+.btn-purple{background:var(--purple);color:#fff;}
+.f-row{display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid rgba(255,255,255,0.03);transition:background .15s;}
+.f-row:hover{background:rgba(59,130,246,0.04);}
+.f-ico{width:34px;height:34px;background:rgba(29,78,216,0.12);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.f-info{flex:1;}
+.f-name{font-size:12px;font-weight:700;margin-bottom:2px;}
+.f-meta{font-size:10px;color:var(--text2);}
+.fl{display:block;font-size:11px;font-weight:700;color:var(--text2);margin-bottom:5px;}
+.fi{width:100%;padding:9px 12px;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:var(--r2);color:var(--text);font-family:'Tajawal',sans-serif;font-size:13px;transition:all .2s;margin-bottom:12px;}
+.fi:focus{outline:none;border-color:var(--blue2);}
+.acl-row{display:flex;align-items:center;gap:8px;padding:8px 12px;background:rgba(239,68,68,0.04);border:1px solid rgba(239,68,68,0.1);border-radius:var(--r2);margin-bottom:5px;font-size:11px;}
+.acl-arrow{color:var(--red);font-weight:800;font-family:'JetBrains Mono',monospace;}
+.acl-ip{font-family:'JetBrains Mono',monospace;color:var(--text2);}
+.moodle-card{background:linear-gradient(135deg,rgba(124,58,237,0.12),rgba(168,85,247,0.06));border:1px solid rgba(124,58,237,0.2);border-radius:var(--r);padding:20px;display:flex;align-items:center;gap:16px;}
+.moodle-ic{font-size:40px;flex-shrink:0;}
+.moodle-info h3{font-size:16px;font-weight:800;margin-bottom:4px;}
+.moodle-info p{font-size:12px;color:var(--text2);margin-bottom:10px;}
+</style>
+</head>
+<body>
+<div class="orb orb1"></div><div class="orb orb2"></div>
+<aside class="sidebar">
+  <div class="s-logo"><div class="s-logo-ic">⚙️</div><div><div class="s-logo-t">لوحة الإدارة</div><div class="s-logo-s">school.local</div></div></div>
+  <nav class="s-nav">
+    <div class="s-group"><div class="s-group-lbl">الرئيسية</div>
+      <div class="s-item active" onclick="go('dashboard',this)"><span class="ic">📊</span> لوحة التحكم</div></div>
+    <div class="s-group"><div class="s-group-lbl">الشبكة</div>
+      <div class="s-item" onclick="go('devices',this)"><span class="ic">🖥️</span> الأجهزة المتصلة</div>
+      <div class="s-item" onclick="go('vlans',this)"><span class="ic">🔀</span> إدارة VLANs</div>
+      <div class="s-item" onclick="go('acl',this)"><span class="ic">🛡️</span> قواعد ACL</div></div>
+    <div class="s-group"><div class="s-group-lbl">الخدمات</div>
+      <div class="s-item" onclick="go('services',this)"><span class="ic">⚡</span> حالة الخدمات</div>
+      <div class="s-item" onclick="go('files',this)"><span class="ic">📁</span> الملفات <span class="s-badge" id="sb-files">0</span></div>
+      <div class="s-item" onclick="go('moodle',this)"><span class="ic">🎓</span> منصة Moodle</div></div>
+    <div class="s-group"><div class="s-group-lbl">الإدارة</div>
+      <div class="s-item" onclick="go('users',this)"><span class="ic">👥</span> المستخدمون</div>
+      <div class="s-item" onclick="go('settings',this)"><span class="ic">⚙️</span> الإعدادات</div></div>
+  </nav>
+  <div class="s-foot">
+    <div class="s-user"><div class="s-avatar">👤</div><div class="s-uinfo">مدير النظام<span>admin@school.local</span></div></div>
+    <div class="s-links" style="margin-top:8px;">
+      <a href="teacher.html" class="s-link blue">👨‍🏫</a>
+      <a href="student.html" class="s-link teal">👨‍🎓</a>
+      <a href="http://192.168.40.10/moodle" class="s-link purple">🎓</a>
+    </div>
+  </div>
+</aside>
+<main class="main">
+  <div class="topbar">
+    <div class="tb-left"><h1>🏫 شبكة المدرسة الداخلية</h1><p>school.local — Local Network System — بدون إنترنت</p></div>
+    <div class="tb-right"><div class="tb-clock" id="clk">--:--:--</div><div class="tb-tag">⚙️ Admin</div><div class="tb-refresh" onclick="refreshAll()">🔄</div></div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div class="page active" id="p-dashboard">
+    <div class="stats">
+      <div class="stat sb"><div class="stat-ic">🖥️</div><div class="stat-v">7</div><div class="stat-l">أجهزة متصلة</div><div class="stat-sub">✅ جميعها تعمل</div></div>
+      <div class="stat so"><div class="stat-ic">📁</div><div class="stat-v" id="d-files">0</div><div class="stat-l">ملفات مشتركة</div><div class="stat-sub">📤 متاحة للتحميل</div></div>
+      <div class="stat sg"><div class="stat-ic">🌐</div><div class="stat-v">4</div><div class="stat-l">شبكات VLAN</div><div class="stat-sub">✅ جميعها نشطة</div></div>
+      <div class="stat sp"><div class="stat-ic">🎓</div><div class="stat-v">Moodle</div><div class="stat-l">منصة التعليم</div><div class="stat-sub">✅ تعمل</div></div>
+    </div>
+    <div class="g21 mb">
+      <div class="card">
+        <div class="card-t"><span>⚡ حالة الخدمات</span><span class="badge b-green">● Live</span></div>
+        <table><thead><tr><th>الخدمة</th><th>IP</th><th>Port</th><th>الحالة</th><th>VLAN</th></tr></thead><tbody>
+          <tr><td>🌐 Apache Web</td><td><code>192.168.40.10</code></td><td>80</td><td><span class="badge b-green">✅ يعمل</span></td><td>40</td></tr>
+          <tr><td>🔍 BIND9 DNS</td><td><code>192.168.40.10</code></td><td>53</td><td><span class="badge b-green">✅ يعمل</span></td><td>40</td></tr>
+          <tr><td>📡 ISC-DHCP</td><td><code>192.168.40.10</code></td><td>67</td><td><span class="badge b-green">✅ يعمل</span></td><td>40</td></tr>
+          <tr><td>🎓 Moodle LMS</td><td><code>192.168.40.10</code></td><td>80</td><td><span class="badge b-purple">✅ يعمل</span></td><td>40</td></tr>
+          <tr><td>📁 Samba</td><td><code>192.168.40.20</code></td><td>445</td><td><span class="badge b-green">✅ يعمل</span></td><td>40</td></tr>
+          <tr><td>📤 vsftpd FTP</td><td><code>192.168.40.20</code></td><td>21</td><td><span class="badge b-green">✅ يعمل</span></td><td>40</td></tr>
+        </tbody></table>
+      </div>
+      <div class="card">
+        <div class="card-t"><span>📊 استخدام VLANs</span></div>
+        <div style="margin-bottom:12px;"><div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:4px;"><span>VLAN 10 — الإدارة</span><span style="color:var(--blue3);font-family:'JetBrains Mono',monospace">20%</span></div><div class="prog"><div class="prog-f" style="width:20%;background:linear-gradient(90deg,var(--red),#f87171)"></div></div></div>
+        <div style="margin-bottom:12px;"><div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:4px;"><span>VLAN 20 — المعلمون</span><span style="color:var(--blue3);font-family:'JetBrains Mono',monospace">45%</span></div><div class="prog"><div class="prog-f" style="width:45%;background:linear-gradient(90deg,var(--blue),var(--blue2))"></div></div></div>
+        <div style="margin-bottom:12px;"><div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:4px;"><span>VLAN 30 — الطلاب</span><span style="color:var(--gold2);font-family:'JetBrains Mono',monospace">75%</span></div><div class="prog"><div class="prog-f" style="width:75%;background:linear-gradient(90deg,var(--gold),var(--gold2))"></div></div></div>
+        <div><div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:4px;"><span>VLAN 40 — السيرفرات</span><span style="color:var(--green2);font-family:'JetBrains Mono',monospace">60%</span></div><div class="prog"><div class="prog-f" style="width:60%;background:linear-gradient(90deg,var(--purple),#a855f7)"></div></div></div>
+      </div>
+    </div>
+    <div class="g2">
+      <div class="card"><div class="card-t"><span>📁 آخر الملفات</span><button class="btn btn-o btn-sm" onclick="go('files',null)">عرض الكل</button></div><div id="dash-files"><div style="text-align:center;padding:20px;color:var(--text2);font-size:12px;">لا توجد ملفات بعد</div></div></div>
+      <div class="card"><div class="card-t"><span>💻 سجل النظام</span></div>
+        <div class="log-box" id="system-log">
+          <div class="log-ok">[INFO] Apache2 running on :80</div>
+          <div class="log-ok">[INFO] DHCP server active</div>
+          <div class="log-ok">[INFO] BIND9 DNS active :53</div>
+          <div class="log-ok">[INFO] Moodle LMS accessible</div>
+          <div class="log-ok">[INFO] Samba shares ready</div>
+          <div class="log-ok">[INFO] vsftpd running :21</div>
+          <div class="log-warn">[WARN] Student blocked → Admin VLAN</div>
+          <div class="log-info">[DNS] school.local → 192.168.40.10</div>
+          <div class="log-info">[DNS] moodle.school.local → 192.168.40.10</div>
+          <div class="log-ok">[DHCP] Lease → PC-Admin 192.168.10.10</div>
+          <div class="log-ok">[DHCP] Lease → PC-Teachers 192.168.20.10</div>
+          <div class="log-ok">[DHCP] Lease → PC-Students 192.168.30.10</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DEVICES -->
+  <div class="page" id="p-devices">
+    <div style="font-size:18px;font-weight:900;margin-bottom:16px;">🖥️ الأجهزة المتصلة بالشبكة</div>
+    <div class="g2 mb">
+      <div class="card"><div class="card-t"><span>🔴 VLAN 10 — الإدارة</span><span class="badge b-red">192.168.10.0/24</span></div>
+        <div class="dev-row"><span class="dot dot-on"></span><div class="dev-name">PC-Admin</div><code class="dev-ip">192.168.10.10</code><span class="badge b-red">Admin</span></div>
+        <div class="dev-row"><span class="dot dot-on"></span><div class="dev-name">SW-Admin</div><code class="dev-ip">G0/1 ← MainSwitch</code><span class="badge b-blue">L2 Switch</span></div>
+        <div style="margin-top:10px;padding:8px 12px;background:rgba(239,68,68,0.04);border-radius:var(--r2);font-size:10px;color:var(--text2);">Gateway: <code style="color:var(--red2);">192.168.10.1</code> | DHCP: .10 — .50 | DNS: 192.168.40.10</div>
+      </div>
+      <div class="card"><div class="card-t"><span>🔵 VLAN 20 — المعلمون</span><span class="badge b-blue">192.168.20.0/24</span></div>
+        <div class="dev-row"><span class="dot dot-on"></span><div class="dev-name">PC-Teachers</div><code class="dev-ip">192.168.20.10</code><span class="badge b-blue">Teacher</span></div>
+        <div class="dev-row"><span class="dot dot-on"></span><div class="dev-name">SW-Teachers</div><code class="dev-ip">G0/2 ← MainSwitch</code><span class="badge b-blue">L2 Switch</span></div>
+        <div style="margin-top:10px;padding:8px 12px;background:rgba(59,130,246,0.04);border-radius:var(--r2);font-size:10px;color:var(--text2);">Gateway: <code style="color:var(--blue3);">192.168.20.1</code> | DHCP: .10 — .100 | DNS: 192.168.40.10</div>
+      </div>
+      <div class="card"><div class="card-t"><span>🟡 VLAN 30 — الطلاب</span><span class="badge b-gold">192.168.30.0/24</span></div>
+        <div class="dev-row"><span class="dot dot-on"></span><div class="dev-name">PC-Students</div><code class="dev-ip">192.168.30.10</code><span class="badge b-gold">Student</span></div>
+        <div class="dev-row"><span class="dot dot-on"></span><div class="dev-name">SW-Students</div><code class="dev-ip">G0/3 ← MainSwitch</code><span class="badge b-blue">L2 Switch</span></div>
+        <div style="margin-top:10px;padding:8px 12px;background:rgba(245,158,11,0.04);border-radius:var(--r2);font-size:10px;color:var(--text2);">Gateway: <code style="color:var(--gold2);">192.168.30.1</code> | DHCP: .10 — .200 | DNS: 192.168.40.10</div>
+      </div>
+      <div class="card"><div class="card-t"><span>🟣 VLAN 40 — السيرفرات</span><span class="badge b-purple">192.168.40.0/24</span></div>
+        <div class="dev-row"><span class="dot dot-on"></span><div class="dev-name">DNS-DHCP-WEB-Moodle</div><code class="dev-ip">192.168.40.10</code><span class="badge b-purple">Server</span></div>
+        <div class="dev-row"><span class="dot dot-on"></span><div class="dev-name">Samba-FTP Server</div><code class="dev-ip">192.168.40.20</code><span class="badge b-purple">Server</span></div>
+        <div class="dev-row"><span class="dot dot-on"></span><div class="dev-name">SW-Servers</div><code class="dev-ip">G0/4 ← MainSwitch</code><span class="badge b-blue">L2 Switch</span></div>
+        <div style="margin-top:10px;padding:8px 12px;background:rgba(124,58,237,0.04);border-radius:var(--r2);font-size:10px;color:var(--text2);">Gateway: <code style="color:var(--purple2);">192.168.40.1</code> | Static IPs فقط</div>
+      </div>
+    </div>
+    <div class="card"><div class="card-t"><span>🔧 البنية الأساسية</span></div>
+      <div class="dev-row"><span class="dot dot-on"></span><div class="dev-name">MainRouter (Cisco IOS)</div><code class="dev-ip">Fa0/0 → 4 Subinterfaces</code><span class="badge b-green">Core Router</span></div>
+      <div class="dev-row"><span class="dot dot-on"></span><div class="dev-name">MainSwitch (Core)</div><code class="dev-ip">Trunk to 4 switches</code><span class="badge b-green">Core Switch</span></div>
+      <div class="dev-row"><span class="dot dot-on"></span><div class="dev-name">NAT1</div><code class="dev-ip">192.168.122.x (للتنصيب فقط)</code><span class="badge b-teal">NAT</span></div>
+    </div>
+  </div>
+
+  <!-- VLANs -->
+  <div class="page" id="p-vlans">
+    <div style="font-size:18px;font-weight:900;margin-bottom:16px;">🔀 إدارة VLANs</div>
+    <div class="vlan-grid mb">
+      <div class="vlan-c" style="border-color:rgba(239,68,68,0.25);">
+        <div class="vlan-num" style="color:var(--red2);">VLAN 10 — ADMINISTRATION</div>
+        <div class="vlan-name">الإدارة</div><div class="vlan-net">192.168.10.0/24</div>
+        <table style="margin-bottom:10px;"><tr><td>Gateway</td><td><code>192.168.10.1</code></td></tr><tr><td>DHCP</td><td><code>.10 — .50</code></td></tr><tr><td>DNS</td><td><code>192.168.40.10</code></td></tr><tr><td>Switch Port</td><td>SW-Admin G0/0</td></tr></table>
+        <div class="vlan-bar"><div class="vlan-fill" style="width:20%;background:var(--red);"></div></div>
+      </div>
+      <div class="vlan-c" style="border-color:rgba(59,130,246,0.25);">
+        <div class="vlan-num" style="color:var(--blue3);">VLAN 20 — TEACHERS</div>
+        <div class="vlan-name">المعلمون</div><div class="vlan-net">192.168.20.0/24</div>
+        <table style="margin-bottom:10px;"><tr><td>Gateway</td><td><code>192.168.20.1</code></td></tr><tr><td>DHCP</td><td><code>.10 — .100</code></td></tr><tr><td>DNS</td><td><code>192.168.40.10</code></td></tr><tr><td>Switch Port</td><td>SW-Teachers G0/0</td></tr></table>
+        <div class="vlan-bar"><div class="vlan-fill" style="width:45%;background:var(--blue2);"></div></div>
+      </div>
+      <div class="vlan-c" style="border-color:rgba(245,158,11,0.25);">
+        <div class="vlan-num" style="color:var(--gold2);">VLAN 30 — STUDENTS</div>
+        <div class="vlan-name">الطلاب</div><div class="vlan-net">192.168.30.0/24</div>
+        <table style="margin-bottom:10px;"><tr><td>Gateway</td><td><code>192.168.30.1</code></td></tr><tr><td>DHCP</td><td><code>.10 — .200</code></td></tr><tr><td>DNS</td><td><code>192.168.40.10</code></td></tr><tr><td>Switch Port</td><td>SW-Students G0/0</td></tr></table>
+        <div class="vlan-bar"><div class="vlan-fill" style="width:75%;background:var(--gold);"></div></div>
+      </div>
+      <div class="vlan-c" style="border-color:rgba(124,58,237,0.25);">
+        <div class="vlan-num" style="color:var(--purple2);">VLAN 40 — SERVERS</div>
+        <div class="vlan-name">السيرفرات</div><div class="vlan-net">192.168.40.0/24</div>
+        <table style="margin-bottom:10px;"><tr><td>Gateway</td><td><code>192.168.40.1</code></td></tr><tr><td>DHCP</td><td>Static IPs فقط</td></tr><tr><td>DNS</td><td><code>192.168.40.10</code></td></tr><tr><td>Switch Port</td><td>SW-Servers G0/0</td></tr></table>
+        <div class="vlan-bar"><div class="vlan-fill" style="width:60%;background:var(--purple);"></div></div>
+      </div>
+    </div>
+    <div class="card"><div class="card-t"><span>🔀 Trunk Links</span></div>
+      <table><thead><tr><th>الجهاز الأول</th><th>Interface</th><th>الجهاز الثاني</th><th>Interface</th><th>VLANs</th><th>النوع</th></tr></thead><tbody>
+        <tr><td>MainRouter</td><td><code>Fa0/0</code></td><td>MainSwitch</td><td><code>G0/0</code></td><td><code>10,20,30,40</code></td><td><span class="badge b-purple">Trunk</span></td></tr>
+        <tr><td>MainSwitch</td><td><code>G0/1</code></td><td>SW-Admin</td><td><code>G0/0</code></td><td><code>10</code></td><td><span class="badge b-red">Trunk</span></td></tr>
+        <tr><td>MainSwitch</td><td><code>G0/2</code></td><td>SW-Teachers</td><td><code>G0/0</code></td><td><code>20</code></td><td><span class="badge b-blue">Trunk</span></td></tr>
+        <tr><td>MainSwitch</td><td><code>G0/3</code></td><td>SW-Students</td><td><code>G0/0</code></td><td><code>30</code></td><td><span class="badge b-gold">Trunk</span></td></tr>
+        <tr><td>MainSwitch</td><td><code>G0/4</code></td><td>SW-Servers</td><td><code>G0/0</code></td><td><code>40</code></td><td><span class="badge b-purple">Trunk</span></td></tr>
+        <tr><td>SW-Admin</td><td><code>G0/1</code></td><td>PC-Admin</td><td><code>ens3</code></td><td><code>10</code></td><td><span class="badge b-green">Access</span></td></tr>
+        <tr><td>SW-Teachers</td><td><code>G0/1</code></td><td>PC-Teachers</td><td><code>ens3</code></td><td><code>20</code></td><td><span class="badge b-green">Access</span></td></tr>
+        <tr><td>SW-Students</td><td><code>G0/1</code></td><td>PC-Students</td><td><code>ens3</code></td><td><code>30</code></td><td><span class="badge b-green">Access</span></td></tr>
+        <tr><td>SW-Servers</td><td><code>G0/1</code></td><td>DNS-DHCP-WEB</td><td><code>ens3</code></td><td><code>40</code></td><td><span class="badge b-green">Access</span></td></tr>
+        <tr><td>SW-Servers</td><td><code>G0/2</code></td><td>Samba-FTP</td><td><code>ens3</code></td><td><code>40</code></td><td><span class="badge b-green">Access</span></td></tr>
+      </tbody></table>
+    </div>
+  </div>
+
+  <!-- ACL -->
+  <div class="page" id="p-acl">
+    <div style="font-size:18px;font-weight:900;margin-bottom:16px;">🛡️ قواعد ACL</div>
+    <div class="g2 mb">
+      <div class="card"><div class="card-t"><span>📋 القواعد المطبّقة</span><span class="badge b-red">Fa0/0.30 in</span></div>
+        <div class="acl-row"><code class="acl-ip">192.168.30.0/24</code><span class="acl-arrow"> ──✕──► </span><code class="acl-ip">192.168.10.0/24</code><span class="badge b-red" style="margin-right:auto;">DENY</span></div>
+        <div class="acl-row"><code class="acl-ip">192.168.30.0/24</code><span class="acl-arrow"> ──✕──► </span><code class="acl-ip">192.168.20.0/24</code><span class="badge b-red" style="margin-right:auto;">DENY</span></div>
+        <div class="acl-row" style="background:rgba(16,185,129,0.04);border-color:rgba(16,185,129,0.1);"><code class="acl-ip">any</code><span class="acl-arrow" style="color:var(--green);"> ──✓──► </span><code class="acl-ip">any</code><span class="badge b-green" style="margin-right:auto;">PERMIT</span></div>
+        <div style="margin-top:10px;padding:10px;background:rgba(239,68,68,0.04);border-radius:var(--r2);font-size:11px;color:var(--text2);line-height:1.8;"><strong style="color:var(--red2);">List:</strong> BLOCK_STUDENTS | <strong style="color:var(--red2);">Interface:</strong> Fa0/0.30 | <strong style="color:var(--red2);">Direction:</strong> in</div>
+      </div>
+      <div class="card"><div class="card-t"><span>✅ نتائج الاختبار</span></div>
+        <table><thead><tr><th>المصدر</th><th>الوجهة</th><th>النتيجة</th></tr></thead><tbody>
+          <tr><td>PC-Students</td><td>192.168.10.1</td><td><span class="badge b-red">❌ Blocked</span></td></tr>
+          <tr><td>PC-Students</td><td>192.168.20.1</td><td><span class="badge b-red">❌ Blocked</span></td></tr>
+          <tr><td>PC-Students</td><td>192.168.40.10</td><td><span class="badge b-green">✅ Allowed</span></td></tr>
+          <tr><td>PC-Students</td><td>192.168.30.1</td><td><span class="badge b-green">✅ Allowed</span></td></tr>
+          <tr><td>PC-Teachers</td><td>All VLANs</td><td><span class="badge b-green">✅ Allowed</span></td></tr>
+          <tr><td>PC-Admin</td><td>All VLANs</td><td><span class="badge b-green">✅ Allowed</span></td></tr>
+        </tbody></table>
+      </div>
+    </div>
+    <div class="card"><div class="card-t"><span>🔧 Cisco IOS Commands</span></div>
+      <div class="log-box">
+        <div class="log-info">R1(config)# ip access-list extended BLOCK_STUDENTS</div>
+        <div class="log-warn"> deny ip 192.168.30.0 0.0.0.255 192.168.10.0 0.0.0.255</div>
+        <div class="log-warn"> deny ip 192.168.30.0 0.0.0.255 192.168.20.0 0.0.0.255</div>
+        <div class="log-ok"> permit ip any any</div>
+        <div class="log-info">R1(config)# interface FastEthernet0/0.30</div>
+        <div class="log-ok">R1(config-subif)# ip access-group BLOCK_STUDENTS in</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SERVICES -->
+  <div class="page" id="p-services">
+    <div style="font-size:18px;font-weight:900;margin-bottom:16px;">⚡ حالة الخدمات</div>
+    <div class="g3 mb">
+      <div class="card" style="text-align:center;border-color:rgba(16,185,129,0.2);"><div style="font-size:32px;margin-bottom:8px;">🌐</div><div style="font-weight:800;margin-bottom:4px;">Apache Web</div><div style="font-size:11px;color:var(--text2);margin-bottom:8px;">192.168.40.10:80</div><span class="badge b-green">● Active</span><div style="font-size:10px;color:var(--text2);margin-top:6px;">school.local</div></div>
+      <div class="card" style="text-align:center;border-color:rgba(16,185,129,0.2);"><div style="font-size:32px;margin-bottom:8px;">🔍</div><div style="font-weight:800;margin-bottom:4px;">BIND9 DNS</div><div style="font-size:11px;color:var(--text2);margin-bottom:8px;">192.168.40.10:53</div><span class="badge b-green">● Active</span><div style="font-size:10px;color:var(--text2);margin-top:6px;">Zone: school.local</div></div>
+      <div class="card" style="text-align:center;border-color:rgba(16,185,129,0.2);"><div style="font-size:32px;margin-bottom:8px;">📡</div><div style="font-weight:800;margin-bottom:4px;">ISC-DHCP</div><div style="font-size:11px;color:var(--text2);margin-bottom:8px;">192.168.40.10:67</div><span class="badge b-green">● Active</span><div style="font-size:10px;color:var(--text2);margin-top:6px;">Serving 3 VLANs</div></div>
+      <div class="card" style="text-align:center;border-color:rgba(124,58,237,0.2);"><div style="font-size:32px;margin-bottom:8px;">🎓</div><div style="font-weight:800;margin-bottom:4px;">Moodle LMS</div><div style="font-size:11px;color:var(--text2);margin-bottom:8px;">moodle.school.local</div><span class="badge b-purple">● Active</span><div style="font-size:10px;color:var(--text2);margin-top:6px;">Moodle 4.x + MySQL</div></div>
+      <div class="card" style="text-align:center;border-color:rgba(16,185,129,0.2);"><div style="font-size:32px;margin-bottom:8px;">📁</div><div style="font-weight:800;margin-bottom:4px;">Samba</div><div style="font-size:11px;color:var(--text2);margin-bottom:8px;">192.168.40.20:445</div><span class="badge b-green">● Active</span><div style="font-size:10px;color:var(--text2);margin-top:6px;">3 Shares</div></div>
+      <div class="card" style="text-align:center;border-color:rgba(16,185,129,0.2);"><div style="font-size:32px;margin-bottom:8px;">📤</div><div style="font-weight:800;margin-bottom:4px;">vsftpd FTP</div><div style="font-size:11px;color:var(--text2);margin-bottom:8px;">192.168.40.20:21</div><span class="badge b-green">● Active</span><div style="font-size:10px;color:var(--text2);margin-top:6px;">Anonymous + Local</div></div>
+    </div>
+    <div class="card"><div class="card-t"><span>🌐 DNS Records — school.local</span></div>
+      <table><thead><tr><th>Hostname</th><th>Type</th><th>IP</th><th>الخدمة</th></tr></thead><tbody>
+        <tr><td>ns.school.local</td><td><span class="badge b-blue">A</span></td><td><code>192.168.40.10</code></td><td>Name Server</td></tr>
+        <tr><td>web.school.local</td><td><span class="badge b-blue">A</span></td><td><code>192.168.40.10</code></td><td>Web Server</td></tr>
+        <tr><td>intranet.school.local</td><td><span class="badge b-blue">A</span></td><td><code>192.168.40.10</code></td><td>Intranet Portal</td></tr>
+        <tr><td>moodle.school.local</td><td><span class="badge b-purple">A</span></td><td><code>192.168.40.10</code></td><td>Moodle LMS</td></tr>
+        <tr><td>files.school.local</td><td><span class="badge b-blue">A</span></td><td><code>192.168.40.20</code></td><td>File Server</td></tr>
+        <tr><td>ftp.school.local</td><td><span class="badge b-blue">A</span></td><td><code>192.168.40.20</code></td><td>FTP Server</td></tr>
+      </tbody></table>
+    </div>
+  </div>
+
+  <!-- FILES -->
+  <div class="page" id="p-files">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;"><div style="font-size:18px;font-weight:900;">📁 إدارة الملفات</div><span id="total-files-badge" class="badge b-blue">0 ملف</span></div>
+    <div class="card"><div class="card-t"><span>📋 جميع الملفات</span></div><div id="admin-files"></div></div>
+  </div>
+
+  <!-- MOODLE -->
+  <div class="page" id="p-moodle">
+    <div style="font-size:18px;font-weight:900;margin-bottom:16px;">🎓 منصة Moodle</div>
+    <div class="moodle-card mb"><div class="moodle-ic">🎓</div>
+      <div class="moodle-info"><h3>Moodle Learning Management System</h3><p>منصة التعليم الإلكتروني الداخلية — تعمل بدون إنترنت</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <a href="http://192.168.40.10/moodle" class="btn btn-purple" style="text-decoration:none;">🚀 فتح Moodle</a>
+          <a href="http://moodle.school.local" class="btn btn-o" style="text-decoration:none;">🌐 moodle.school.local</a>
+        </div>
+      </div>
+    </div>
+    <div class="g2">
+      <div class="card"><div class="card-t"><span>⚙️ معلومات التنصيب</span></div>
+        <table><tr><td>الإصدار</td><td><code>Moodle 4.4 STABLE</code></td></tr><tr><td>Web Server</td><td><code>Apache 2.4</code></td></tr><tr><td>Database</td><td><code>MySQL 8.0</code></td></tr><tr><td>PHP</td><td><code>PHP 8.x</code></td></tr><tr><td>IP</td><td><code>192.168.40.10</code></td></tr><tr><td>URL</td><td><code>moodle.school.local</code></td></tr><tr><td>Data Dir</td><td><code>/var/moodledata</code></td></tr></table>
+      </div>
+      <div class="card"><div class="card-t"><span>✅ الميزات</span></div>
+        <div class="dev-row"><span>📚</span><div class="dev-name">إدارة الكورسات</div><span class="badge b-green">✅</span></div>
+        <div class="dev-row"><span>👥</span><div class="dev-name">تسجيل الطلاب والمعلمين</div><span class="badge b-green">✅</span></div>
+        <div class="dev-row"><span>📝</span><div class="dev-name">الواجبات والامتحانات</div><span class="badge b-green">✅</span></div>
+        <div class="dev-row"><span>📁</span><div class="dev-name">رفع وتوزيع الملفات</div><span class="badge b-green">✅</span></div>
+        <div class="dev-row"><span>💬</span><div class="dev-name">منتديات النقاش</div><span class="badge b-green">✅</span></div>
+        <div class="dev-row"><span>📊</span><div class="dev-name">تقارير الدرجات</div><span class="badge b-green">✅</span></div>
+        <div class="dev-row"><span>🌐</span><div class="dev-name">دعم اللغة العربية</div><span class="badge b-green">✅</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- USERS -->
+  <div class="page" id="p-users">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;"><div style="font-size:18px;font-weight:900;">👥 المستخدمون</div><button class="btn btn-p" onclick="addUser()">➕ إضافة</button></div>
+    <div class="card"><table><thead><tr><th>الاسم</th><th>الدور</th><th>VLAN</th><th>IP</th><th>الشبكة</th><th>الحالة</th><th>حذف</th></tr></thead>
+      <tbody id="users-tb">
+        <tr><td>مدير النظام</td><td><span class="badge b-red">Admin</span></td><td>10</td><td><code>192.168.10.10</code></td><td><code>192.168.10.0/24</code></td><td><span class="badge b-green">● متصل</span></td><td><button class="btn btn-r btn-sm" onclick="this.closest('tr').remove()">🗑</button></td></tr>
+        <tr><td>المعلم</td><td><span class="badge b-blue">Teacher</span></td><td>20</td><td><code>192.168.20.10</code></td><td><code>192.168.20.0/24</code></td><td><span class="badge b-green">● متصل</span></td><td><button class="btn btn-r btn-sm" onclick="this.closest('tr').remove()">🗑</button></td></tr>
+        <tr><td>الطالب</td><td><span class="badge b-gold">Student</span></td><td>30</td><td><code>192.168.30.10</code></td><td><code>192.168.30.0/24</code></td><td><span class="badge b-green">● متصل</span></td><td><button class="btn btn-r btn-sm" onclick="this.closest('tr').remove()">🗑</button></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <!-- SETTINGS -->
+  <div class="page" id="p-settings">
+    <div style="font-size:18px;font-weight:900;margin-bottom:16px;">⚙️ الإعدادات</div>
+    <div class="g2">
+      <div class="card"><div class="card-t"><span>🏫 إعدادات المدرسة</span></div>
+        <label class="fl">اسم المدرسة</label><input type="text" class="fi" value="مدرسة النموذج">
+        <label class="fl">النطاق المحلي</label><input type="text" class="fi" value="school.local" readonly>
+        <label class="fl">IP السيرفر الرئيسي</label><input type="text" class="fi" value="192.168.40.10" readonly>
+        <label class="fl">IP سيرفر الملفات</label><input type="text" class="fi" value="192.168.40.20" readonly>
+        <button class="btn btn-p">💾 حفظ</button>
+      </div>
+      <div class="card"><div class="card-t"><span>🔗 روابط الواجهات</span></div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <a href="admin.html" class="btn btn-r" style="text-decoration:none;justify-content:center;">⚙️ لوحة الإدارة</a>
+          <a href="teacher.html" class="btn btn-p" style="text-decoration:none;justify-content:center;">👨‍🏫 واجهة المعلم</a>
+          <a href="student.html" class="btn btn-o" style="text-decoration:none;justify-content:center;">👨‍🎓 واجهة الطالب</a>
+          <a href="http://192.168.40.10/moodle" class="btn btn-purple" style="text-decoration:none;justify-content:center;">🎓 منصة Moodle</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+const KEY='schoolFiles_v2';
+function getFiles(){return JSON.parse(localStorage.getItem(KEY)||'[]');}
+function saveFiles(f){localStorage.setItem(KEY,JSON.stringify(f));}
+function fileIcon(n){const e=n.split('.').pop().toLowerCase();if(e==='pdf')return'📄';if(['doc','docx'].includes(e))return'📝';if(['xls','xlsx'].includes(e))return'📊';return'📁';}
+function go(id,el){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.s-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('p-'+id).classList.add('active');
+  if(el)el.classList.add('active');
+  if(id==='files'||id==='dashboard')renderFiles();
+}
+function renderFiles(){
+  const files=getFiles();
+  const df=document.getElementById('d-files');if(df)df.textContent=files.length;
+  const sb=document.getElementById('sb-files');if(sb)sb.textContent=files.length;
+  const badge=document.getElementById('total-files-badge');if(badge)badge.textContent=files.length+' ملف';
+  const el=document.getElementById('admin-files');
+  if(el){
+    if(!files.length){el.innerHTML='<div style="text-align:center;padding:24px;color:var(--text2);font-size:12px;">لا توجد ملفات</div>';return;}
+    el.innerHTML=files.map((f,i)=>`<div class="f-row"><div class="f-ico">${fileIcon(f.name)}</div><div class="f-info"><div class="f-name">${f.desc||f.name}</div><div class="f-meta">${f.name} · ${f.subject||''} · ${f.uploader||'—'} · ${f.date||''}</div></div><span class="badge b-blue">${f.audience||'الجميع'}</span><button class="btn btn-r btn-sm" onclick="delFile(${i})">🗑</button></div>`).join('');
+  }
+  const dash=document.getElementById('dash-files');
+  if(dash){
+    if(!files.length){dash.innerHTML='<div style="text-align:center;padding:16px;color:var(--text2);font-size:12px;">لا توجد ملفات</div>';return;}
+    dash.innerHTML=files.slice(0,4).map(f=>`<div class="f-row"><div class="f-ico" style="width:30px;height:30px;font-size:14px;">${fileIcon(f.name)}</div><div class="f-info"><div class="f-name" style="font-size:12px;">${f.desc||f.name}</div><div class="f-meta">${f.uploader||'—'} · ${f.date||''}</div></div><span class="badge b-green">✅</span></div>`).join('');
+  }
+}
+function delFile(i){if(!confirm('حذف هذا الملف؟'))return;const f=getFiles();f.splice(i,1);saveFiles(f);renderFiles();}
+function refreshAll(){
+  renderFiles();
+  const log=document.getElementById('system-log');
+  const now=new Date().toLocaleTimeString('ar');
+  const e=document.createElement('div');e.className='log-info';
+  e.textContent=`[${now}] Dashboard refreshed by Admin`;
+  log.appendChild(e);log.scrollTop=log.scrollHeight;
+}
+function addUser(){
+  const name=prompt('اسم المستخدم:');if(!name)return;
+  const role=prompt('الدور (Admin/Teacher/Student):','Student');if(!role)return;
+  const vlan=role==='Admin'?'10':role==='Teacher'?'20':'30';
+  const net=`192.168.${vlan}.0/24`;const ip=`192.168.${vlan}.x`;
+  const badge=role==='Admin'?'b-red':role==='Teacher'?'b-blue':'b-gold';
+  const tr=document.createElement('tr');
+  tr.innerHTML=`<td>${name}</td><td><span class="badge ${badge}">${role}</span></td><td>${vlan}</td><td><code>${ip}</code></td><td><code>${net}</code></td><td><span class="badge b-green">● متصل</span></td><td><button class="btn btn-r btn-sm" onclick="this.closest('tr').remove()">🗑</button></td>`;
+  document.getElementById('users-tb').appendChild(tr);
+}
+setInterval(()=>{const n=new Date();document.getElementById('clk').textContent=String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0')+':'+String(n.getSeconds()).padStart(2,'0');},1000);
+renderFiles();
+</script>
+</body>
+</html>
