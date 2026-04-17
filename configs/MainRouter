@@ -1,0 +1,86 @@
+! ============================================
+! MainRouter — Cisco IOS Configuration
+! Project: Local Network System For Sharing School
+! ============================================
+
+hostname MainRouter
+
+! ── Physical Interface ──────────────────────
+interface FastEthernet0/0
+ no shutdown
+
+! ── Sub-interfaces (Router-on-a-Stick) ──────
+
+! VLAN 10 — Administration
+interface FastEthernet0/0.10
+ encapsulation dot1Q 10
+ ip address 192.168.10.1 255.255.255.0
+ no shutdown
+
+! VLAN 20 — Teachers
+interface FastEthernet0/0.20
+ encapsulation dot1Q 20
+ ip address 192.168.20.1 255.255.255.0
+ no shutdown
+
+! VLAN 30 — Students
+interface FastEthernet0/0.30
+ encapsulation dot1Q 30
+ ip address 192.168.30.1 255.255.255.0
+ no shutdown
+
+! VLAN 40 — Servers
+interface FastEthernet0/0.40
+ encapsulation dot1Q 40
+ ip address 192.168.40.1 255.255.255.0
+ no shutdown
+
+! ── DHCP Configuration ──────────────────────
+
+! Reserve gateway addresses
+ip dhcp excluded-address 192.168.10.1 192.168.10.9
+ip dhcp excluded-address 192.168.20.1 192.168.20.9
+ip dhcp excluded-address 192.168.30.1 192.168.30.9
+ip dhcp excluded-address 192.168.40.1 192.168.40.9
+
+! VLAN 10 — Admin Pool
+ip dhcp pool ADMIN
+ network 192.168.10.0 255.255.255.0
+ default-router 192.168.10.1
+ dns-server 192.168.40.10
+ domain-name school.local
+ lease 1
+
+! VLAN 20 — Teachers Pool
+ip dhcp pool TEACHERS
+ network 192.168.20.0 255.255.255.0
+ default-router 192.168.20.1
+ dns-server 192.168.40.10
+ domain-name school.local
+ lease 1
+
+! VLAN 30 — Students Pool
+ip dhcp pool STUDENTS
+ network 192.168.30.0 255.255.255.0
+ default-router 192.168.30.1
+ dns-server 192.168.40.10
+ domain-name school.local
+ lease 1
+
+! ── ACL Security ────────────────────────────
+
+ip access-list extended BLOCK_STUDENTS
+ ! Block students from accessing Admin VLAN
+ deny ip 192.168.30.0 0.0.0.255 192.168.10.0 0.0.0.255
+ ! Block students from accessing Teacher VLAN
+ deny ip 192.168.30.0 0.0.0.255 192.168.20.0 0.0.0.255
+ ! Allow all other traffic
+ permit ip any any
+
+! Apply ACL to Student sub-interface (inbound)
+interface FastEthernet0/0.30
+ ip access-group BLOCK_STUDENTS in
+
+! ── Save Configuration ───────────────────────
+end
+write memory
