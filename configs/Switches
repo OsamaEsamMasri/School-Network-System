@@ -1,0 +1,158 @@
+! ============================================
+! MainSwitch — Core Distribution Switch
+! ============================================
+
+hostname MainSwitch
+
+! Create all VLANs
+vlan 10
+ name Admin
+vlan 20
+ name Teachers
+vlan 30
+ name Students
+vlan 40
+ name Servers
+
+! Trunk toward MainRouter
+interface GigabitEthernet0/0
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk allowed vlan 10,20,30,40
+ no shutdown
+
+! Trunk toward SW-Admin (VLAN 10)
+interface GigabitEthernet0/1
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk allowed vlan 10
+ no shutdown
+
+! Trunk toward SW-Teachers (VLAN 20)
+interface GigabitEthernet0/2
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk allowed vlan 20
+ no shutdown
+
+! Trunk toward SW-Students (VLAN 30)
+interface GigabitEthernet0/3
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk allowed vlan 30
+ no shutdown
+
+! Trunk toward SW-Servers (VLAN 40)
+interface GigabitEthernet0/4
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk allowed vlan 40
+ no shutdown
+
+end
+write memory
+
+
+! ============================================
+! SW-Admin — Access Switch for Admin VLAN
+! ============================================
+
+hostname SW-Admin
+
+vlan 10
+ name Admin
+
+! Trunk from MainSwitch
+interface GigabitEthernet0/0
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk allowed vlan 10
+ no shutdown
+
+! Access port toward PC-Admin
+interface GigabitEthernet0/1
+ switchport mode access
+ switchport access vlan 10
+ no shutdown
+
+end
+write memory
+
+
+! ============================================
+! SW-Teachers — Access Switch for Teacher VLAN
+! ============================================
+
+hostname SW-Teachers
+
+vlan 20
+ name Teachers
+
+interface GigabitEthernet0/0
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk allowed vlan 20
+ no shutdown
+
+interface GigabitEthernet0/1
+ switchport mode access
+ switchport access vlan 20
+ no shutdown
+
+end
+write memory
+
+
+! ============================================
+! SW-Students — Access Switch for Student VLAN
+! ============================================
+
+hostname SW-Students
+
+vlan 30
+ name Students
+
+interface GigabitEthernet0/0
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk allowed vlan 30
+ no shutdown
+
+interface GigabitEthernet0/1
+ switchport mode access
+ switchport access vlan 30
+ no shutdown
+
+end
+write memory
+
+
+! ============================================
+! SW-Servers — Access Switch for Server VLAN
+! ============================================
+
+hostname SW-Servers
+
+vlan 40
+ name Servers
+
+interface GigabitEthernet0/0
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk allowed vlan 40
+ no shutdown
+
+! Access port toward DNS-DHCP-WEB-Moodle (192.168.40.10)
+interface GigabitEthernet0/1
+ switchport mode access
+ switchport access vlan 40
+ no shutdown
+
+! Access port toward Samba-FTP (192.168.40.20)
+interface GigabitEthernet0/2
+ switchport mode access
+ switchport access vlan 40
+ no shutdown
+
+end
+write memory
