@@ -104,7 +104,8 @@ An Extended ACL is applied to enforce security:
 
 **DHCP** <img src="https://github.com/user-attachments/assets/79e352b6-6be9-4e7f-be44-3e0c40f26d35" width="800"/>
 
-**DNS** <img src="https://github.com/user-attachments/assets/0da9b6b8-bb14-489e-ada4-2c147dd3f130" width="800"/>
+**DNS**
+<img src="https://github.com/user-attachments/assets/0da9b6b8-bb14-489e-ada4-2c147dd3f130" width="800"/>
 
 ---
 
