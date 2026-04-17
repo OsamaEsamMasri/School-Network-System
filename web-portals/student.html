@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>واجهة الطالب — شبكة المدرسة</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0f1923; --bg2:#162032; --bg3:#1e3048;
+  --teal:#0d9488; --teal2:#14b8a6; --teal3:#5eead4;
+  --gold:#f59e0b; --gold2:#fcd34d;
+  --green:#10b981; --blue:#3b82f6;
+  --text:#f0fdf4; --text2:#94a3b8; --text3:#475569;
+  --border:rgba(20,184,166,0.15); --r:14px; --r2:8px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+
+/* HERO HEADER */
+.hero{background:linear-gradient(135deg,var(--bg2) 0%,var(--bg3) 100%);border-bottom:1px solid var(--border);padding:20px 28px;display:flex;align-items:center;justify-content:space-between;}
+.hero-left{display:flex;align-items:center;gap:14px;}
+.hero-ico{width:48px;height:48px;background:linear-gradient(135deg,var(--teal),var(--teal2));border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 4px 12px rgba(13,148,136,0.3);}
+.hero-title{font-size:18px;font-weight:800;}
+.hero-sub{font-size:12px;color:var(--text2);margin-top:2px;}
+.hero-right{display:flex;align-items:center;gap:12px;}
+.role-pill{background:rgba(13,148,136,0.15);color:var(--teal3);font-size:11px;font-weight:700;padding:5px 14px;border-radius:99px;border:1px solid rgba(20,184,166,0.25);}
+.clock{font-size:12px;color:var(--text2);font-family:monospace;background:rgba(255,255,255,0.04);padding:6px 12px;border-radius:99px;}
+
+/* SEARCH BAR */
+.searchbar{background:var(--bg2);border-bottom:1px solid var(--border);padding:14px 28px;display:flex;align-items:center;gap:12px;}
+.search-inp{flex:1;padding:10px 16px;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:var(--r2);color:var(--text);font-family:'Tajawal',sans-serif;font-size:14px;transition:all .2s;}
+.search-inp:focus{outline:none;border-color:var(--teal2);}
+.search-inp::placeholder{color:var(--text3);}
+.filters{display:flex;gap:6px;}
+.flt{padding:7px 14px;border-radius:var(--r2);cursor:pointer;font-size:12px;font-weight:600;background:rgba(255,255,255,0.04);border:1px solid var(--border);color:var(--text2);transition:all .2s;font-family:'Tajawal',sans-serif;}
+.flt:hover{background:rgba(20,184,166,0.1);color:var(--teal3);}
+.flt.active{background:rgba(13,148,136,0.2);color:var(--teal3);border-color:rgba(20,184,166,0.3);}
+
+/* MAIN */
+.container{max-width:1000px;margin:0 auto;padding:28px;}
+
+/* STATS ROW */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px;}
+.stat-mini{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:16px;text-align:center;transition:all .3s;}
+.stat-mini:hover{transform:translateY(-2px);border-color:rgba(20,184,166,0.3);}
+.stat-mini-v{font-size:22px;font-weight:800;color:var(--teal3);}
+.stat-mini-l{font-size:11px;color:var(--text2);margin-top:4px;}
+
+/* SUBJECT TABS */
+.subject-tabs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;}
+.stab{padding:6px 16px;border-radius:99px;cursor:pointer;font-size:12px;font-weight:600;background:rgba(255,255,255,0.04);border:1px solid var(--border);color:var(--text2);transition:all .2s;}
+.stab:hover{background:rgba(20,184,166,0.08);}
+.stab.active{background:rgba(13,148,136,0.2);color:var(--teal3);border-color:rgba(20,184,166,0.3);}
+
+/* FILE CARDS GRID */
+.files-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;}
+
+.file-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:20px;transition:all .3s;position:relative;overflow:hidden;}
+.file-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--teal),var(--teal2));}
+.file-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,0.3);border-color:rgba(20,184,166,0.25);}
+
+.fc-top{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px;}
+.fc-icon{width:48px;height:48px;background:rgba(13,148,136,0.12);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;}
+.fc-title{font-size:14px;font-weight:700;line-height:1.4;margin-bottom:4px;}
+.fc-sub{font-size:11px;color:var(--text2);}
+
+.fc-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;}
+.tag{padding:2px 8px;border-radius:99px;font-size:10px;font-weight:700;}
+.tag-teal{background:rgba(13,148,136,0.15);color:var(--teal3);}
+.tag-gold{background:rgba(245,158,11,0.12);color:var(--gold2);}
+.tag-blue{background:rgba(59,130,246,0.12);color:#93c5fd;}
+
+.fc-footer{display:flex;align-items:center;justify-content:space-between;}
+.fc-date{font-size:11px;color:var(--text3);}
+.btn-dl{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:linear-gradient(135deg,var(--teal),var(--teal2));color:#fff;border-radius:var(--r2);font-family:'Tajawal',sans-serif;font-size:12px;font-weight:700;cursor:pointer;border:none;transition:all .2s;}
+.btn-dl:hover{opacity:.9;transform:scale(1.03);}
+
+.empty-state{text-align:center;padding:60px 20px;}
+.empty-ico{font-size:64px;margin-bottom:16px;opacity:.6;}
+.empty-t{font-size:18px;font-weight:700;margin-bottom:8px;color:var(--text2);}
+.empty-s{font-size:13px;color:var(--text3);}
+
+/* NOTIFICATION TOAST */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:rgba(13,148,136,0.9);color:#fff;padding:12px 24px;border-radius:99px;font-size:13px;font-weight:600;backdrop-filter:blur(10px);opacity:0;transition:opacity .3s;pointer-events:none;z-index:99;}
+.toast.show{opacity:1;}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-left">
+    <div class="hero-ico">👨‍🎓</div>
+    <div><div class="hero-title">🏫 مكتبة الملفات الدراسية</div><div class="hero-sub">school.local — شبكة المدرسة الداخلية</div></div>
+  </div>
+  <div class="hero-right">
+    <div class="clock" id="clk">--:--</div>
+    <a href="http://192.168.40.10/moodle" style="display:inline-flex;align-items:center;gap:7px;padding:8px 16px;background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff;border-radius:8px;font-family:'Tajawal',sans-serif;font-size:13px;font-weight:700;text-decoration:none;transition:all .2s;box-shadow:0 3px 10px rgba(124,58,237,0.3);" onmouseover="this.style.transform='translateY(-1px)'" onmouseout="this.style.transform='translateY(0)'">🎓 منصة Moodle</a>
+    <div class="role-pill">👨‍🎓 Student</div>
+  </div>
+</div>
+
+<div class="searchbar">
+  <input type="text" class="search-inp" id="search-inp" placeholder="🔍 ابحث عن ملف..." oninput="renderFiles()">
+  <div class="filters">
+    <button class="flt active" onclick="setFilter('all',this)">الكل</button>
+    <button class="flt" onclick="setFilter('pdf',this)">📄 PDF</button>
+    <button class="flt" onclick="setFilter('word',this)">📝 Word</button>
+    <button class="flt" onclick="setFilter('excel',this)">📊 Excel</button>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="stats-row">
+    <div class="stat-mini"><div class="stat-mini-v" id="s-total">0</div><div class="stat-mini-l">ملف متاح</div></div>
+    <div class="stat-mini"><div class="stat-mini-v" id="s-today">0</div><div class="stat-mini-l">رُفع اليوم</div></div>
+    <div class="stat-mini"><div class="stat-mini-v" id="s-subj">0</div><div class="stat-mini-l">مادة دراسية</div></div>
+    <div class="stat-mini"><div class="stat-mini-v">VLAN 30</div><div class="stat-mini-l">شبكتك</div></div>
+  </div>
+
+  <div class="subject-tabs" id="subj-tabs">
+    <div class="stab active" onclick="setSubject('all',this)">📚 الكل</div>
+  </div>
+
+  <div class="files-grid" id="files-grid">
+    <div class="empty-state" style="grid-column:1/-1;">
+      <div class="empty-ico">📭</div>
+      <div class="empty-t">لا توجد ملفات بعد</div>
+      <div class="empty-s">انتظر حتى يرفع معلمك ملفاً</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const KEY = 'schoolFiles_v2';
+let curFilter = 'all';
+let curSubject = 'all';
+
+function getFiles() {
+  // الطالب يشوف فقط ملفات المعلمين والإدارة — مش ملفات الطلاب
+  return JSON.parse(localStorage.getItem(KEY)||'[]').filter(f =>
+    f.uploader !== 'الطالب'
+  );
+}
+
+function fileIcon(n) {
+  const e = n.split('.').pop().toLowerCase();
+  if(e==='pdf') return '📄'; if(['doc','docx'].includes(e)) return '📝';
+  if(['xls','xlsx'].includes(e)) return '📊'; if(['ppt','pptx'].includes(e)) return '📋';
+  if(['jpg','jpeg','png'].includes(e)) return '🖼️'; if(['zip','rar'].includes(e)) return '📦';
+  return '📁';
+}
+
+function fileType(n) {
+  const e = n.split('.').pop().toLowerCase();
+  if(e==='pdf') return 'pdf';
+  if(['doc','docx'].includes(e)) return 'word';
+  if(['xls','xlsx'].includes(e)) return 'excel';
+  return 'other';
+}
+
+function setFilter(f, el) {
+  curFilter = f;
+  document.querySelectorAll('.flt').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  renderFiles();
+}
+
+function setSubject(s, el) {
+  curSubject = s;
+  document.querySelectorAll('.stab').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  renderFiles();
+}
+
+function buildSubjectTabs(files) {
+  const subjects = [...new Set(files.map(f=>f.subject).filter(Boolean))];
+  const tabs = document.getElementById('subj-tabs');
+  tabs.innerHTML = `<div class="stab ${curSubject==='all'?'active':''}" onclick="setSubject('all',this)">📚 الكل</div>`;
+  subjects.forEach(s => {
+    const d = document.createElement('div');
+    d.className = 'stab' + (curSubject===s?' active':'');
+    d.textContent = s;
+    d.onclick = function(){ setSubject(s, this); };
+    tabs.appendChild(d);
+  });
+}
+
+function renderFiles() {
+  let files = getFiles();
+  const q = document.getElementById('search-inp').value.trim().toLowerCase();
+
+  buildSubjectTabs(files);
+
+  // Update stats
+  const today = new Date().toLocaleDateString('ar');
+  const subjects = [...new Set(files.map(f=>f.subject).filter(Boolean))];
+  document.getElementById('s-total').textContent = files.length;
+  document.getElementById('s-today').textContent = files.filter(f=>f.date===today).length;
+  document.getElementById('s-subj').textContent = subjects.length;
+
+  // Apply filters
+  if(curFilter !== 'all') files = files.filter(f => fileType(f.name) === curFilter);
+  if(curSubject !== 'all') files = files.filter(f => f.subject === curSubject);
+  if(q) files = files.filter(f => (f.desc||f.name).toLowerCase().includes(q) || (f.subject||'').toLowerCase().includes(q));
+
+  const grid = document.getElementById('files-grid');
+  if(!files.length) {
+    grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1;">
+      <div class="empty-ico">🔍</div>
+      <div class="empty-t">${q||curFilter!=='all'||curSubject!=='all'?'لا توجد نتائج':'لا توجد ملفات بعد'}</div>
+      <div class="empty-s">${q?'جرب كلمة بحث مختلفة':'انتظر حتى يرفع معلمك ملفاً'}</div>
+    </div>`;
+    return;
+  }
+
+  grid.innerHTML = files.map(f => `
+    <div class="file-card">
+      <div class="fc-top">
+        <div class="fc-icon">${fileIcon(f.name)}</div>
+        <div>
+          <div class="fc-title">${f.desc||f.name}</div>
+          <div class="fc-sub">رفعه: ${f.uploader||'المعلم'}</div>
+        </div>
+      </div>
+      <div class="fc-tags">
+        <span class="tag tag-teal">${f.subject||'عام'}</span>
+        <span class="tag tag-gold">${f.type||'ملف'}</span>
+        <span class="tag tag-blue">${f.audience||'الجميع'}</span>
+      </div>
+      <div class="fc-footer">
+        <div class="fc-date">📅 ${f.date||''}</div>
+        <button class="btn-dl" onclick="dlFile('${f.desc||f.name}')">⬇ تحميل</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function dlFile(name) {
+  showToast('📥 جاري تحميل: ' + name);
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 3000);
+}
+
+setInterval(()=>{
+  const n=new Date();
+  document.getElementById('clk').textContent=String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0');
+},1000);
+
+renderFiles();
+// تحديث تلقائي كل 10 ثواني
+setInterval(renderFiles, 10000);
+</script>
+</body>
+</html>
