@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تسجيل الدخول — شبكة المدرسة</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#080f1a; --bg2:#0d1829; --bg3:#112240;
+  --blue:#1d4ed8; --blue2:#3b82f6; --blue3:#60a5fa;
+  --teal:#0d9488; --teal2:#14b8a6;
+  --gold:#f59e0b; --red:#ef4444; --green:#10b981;
+  --text:#f1f5f9; --text2:#94a3b8; --border:rgba(59,130,246,0.15);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background-image:linear-gradient(rgba(59,130,246,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(59,130,246,0.03) 1px,transparent 1px);background-size:40px 40px;z-index:0;}
+.circles{position:fixed;top:0;left:0;right:0;bottom:0;pointer-events:none;z-index:0;}
+.c{position:absolute;border-radius:50%;opacity:.05;animation:fl 8s ease-in-out infinite;}
+.c:nth-child(1){width:500px;height:500px;background:var(--blue);top:-100px;right:-100px;}
+.c:nth-child(2){width:300px;height:300px;background:var(--teal);bottom:-50px;left:-50px;animation-delay:2s;}
+.c:nth-child(3){width:200px;height:200px;background:var(--gold);top:50%;left:20%;animation-delay:4s;}
+@keyframes fl{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-20px) scale(1.05)}}
+
+.wrap{position:relative;z-index:1;width:100%;max-width:420px;padding:20px;}
+
+.logo{text-align:center;margin-bottom:28px;animation:sd .5s ease;}
+.logo-ic{width:68px;height:68px;background:linear-gradient(135deg,var(--blue),var(--teal));border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:34px;margin:0 auto 12px;box-shadow:0 8px 28px rgba(29,78,216,0.35);}
+.logo-t{font-size:20px;font-weight:800;margin-bottom:3px;}
+.logo-s{font-size:12px;color:var(--text2);}
+@keyframes sd{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:translateY(0)}}
+
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:30px;box-shadow:0 24px 64px rgba(0,0,0,0.5);animation:su .5s ease .1s both;}
+@keyframes su{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+.card-t{font-size:18px;font-weight:800;text-align:center;margin-bottom:4px;}
+.card-s{font-size:12px;color:var(--text2);text-align:center;margin-bottom:22px;}
+
+.roles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:20px;}
+.role{padding:10px 6px;border-radius:10px;border:1px solid var(--border);background:rgba(255,255,255,0.03);cursor:pointer;text-align:center;transition:all .2s;font-family:'Tajawal',sans-serif;}
+.role:hover{background:rgba(59,130,246,0.07);}
+.role.active.r-admin{border-color:var(--red);background:rgba(239,68,68,0.1);}
+.role.active.r-teacher{border-color:var(--blue2);background:rgba(29,78,216,0.15);}
+.role.active.r-student{border-color:var(--teal2);background:rgba(13,148,136,0.1);}
+.role-ic{font-size:22px;margin-bottom:3px;}
+.role-lb{font-size:11px;font-weight:700;color:var(--text2);}
+.role.active .role-lb{color:var(--text);}
+
+.err{display:none;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.25);border-radius:9px;padding:10px 13px;font-size:13px;color:#f87171;margin-bottom:14px;align-items:center;gap:7px;}
+
+.fg{margin-bottom:14px;}
+.fl{display:block;font-size:11px;font-weight:600;color:var(--text2);margin-bottom:6px;}
+.iw{position:relative;}
+.ii{position:absolute;right:11px;top:50%;transform:translateY(-50%);font-size:15px;pointer-events:none;}
+.fi{width:100%;padding:11px 38px 11px 13px;background:rgba(255,255,255,0.05);border:1px solid rgba(59,130,246,0.2);border-radius:9px;color:var(--text);font-family:'Tajawal',sans-serif;font-size:14px;transition:all .2s;}
+.fi:focus{outline:none;border-color:var(--blue2);background:rgba(29,78,216,0.07);}
+.fi::placeholder{color:rgba(148,163,184,0.45);}
+
+.btn{width:100%;padding:13px;border:none;border-radius:9px;font-family:'Tajawal',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:6px;}
+.btn:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(0,0,0,0.3);}
+.btn.c-blue{background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff;}
+.btn.c-red{background:linear-gradient(135deg,var(--red),#f87171);color:#fff;}
+.btn.c-teal{background:linear-gradient(135deg,var(--teal),var(--teal2));color:#fff;}
+
+.sp{width:17px;height:17px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;display:none;}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.hints{margin-top:18px;padding:13px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);border-radius:9px;}
+.hints-t{font-size:10px;font-weight:700;color:var(--text2);margin-bottom:7px;letter-spacing:.5px;}
+.hr{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:11px;}
+.hr:last-child{border:none;}
+.hr-role{color:var(--text2);}
+.hr-cred{font-family:monospace;color:var(--blue3);}
+
+.foot{text-align:center;margin-top:18px;font-size:11px;color:var(--text2);}
+
+.overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.85);z-index:100;align-items:center;justify-content:center;flex-direction:column;gap:14px;}
+.overlay.show{display:flex;animation:fi2 .3s ease;}
+@keyframes fi2{from{opacity:0}to{opacity:1}}
+.ov-ic{font-size:60px;animation:bou .4s ease;}
+@keyframes bou{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
+.ov-t{font-size:20px;font-weight:800;}
+.ov-s{font-size:13px;color:var(--text2);}
+.bar{width:180px;height:4px;background:rgba(255,255,255,0.08);border-radius:99px;overflow:hidden;margin-top:6px;}
+.bar-f{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--blue),var(--teal));width:0%;transition:width 1.6s linear;}
+</style>
+</head>
+<body>
+
+<div class="circles"><div class="c"></div><div class="c"></div><div class="c"></div></div>
+
+<div class="wrap">
+  <div class="logo">
+    <div class="logo-ic">🏫</div>
+    <div class="logo-t">شبكة المدرسة الداخلية</div>
+    <div class="logo-s">school.local — Local Network System</div>
+  </div>
+
+  <div class="card">
+    <div class="card-t">تسجيل الدخول</div>
+    <div class="card-s">اختر دورك ثم أدخل بياناتك</div>
+
+    <div class="roles">
+      <div class="role r-admin active" onclick="pick('admin',this)">
+        <div class="role-ic">⚙️</div><div class="role-lb">إدارة</div>
+      </div>
+      <div class="role r-teacher" onclick="pick('teacher',this)">
+        <div class="role-ic">👨‍🏫</div><div class="role-lb">معلم</div>
+      </div>
+      <div class="role r-student" onclick="pick('student',this)">
+        <div class="role-ic">👨‍🎓</div><div class="role-lb">طالب</div>
+      </div>
+    </div>
+
+    <div class="err" id="err">❌ اسم المستخدم أو كلمة المرور غير صحيحة</div>
+
+    <div class="fg">
+      <label class="fl">اسم المستخدم</label>
+      <div class="iw"><span class="ii">👤</span>
+        <input type="text" class="fi" id="un" placeholder="أدخل اسم المستخدم" onkeydown="if(event.key==='Enter')login()">
+      </div>
+    </div>
+    <div class="fg">
+      <label class="fl">كلمة المرور</label>
+      <div class="iw"><span class="ii">🔒</span>
+        <input type="password" class="fi" id="pw" placeholder="أدخل كلمة المرور" onkeydown="if(event.key==='Enter')login()">
+      </div>
+    </div>
+
+    <button class="btn c-red" id="btn" onclick="login()">
+      <span class="sp" id="sp"></span>
+      <span id="bt">🔐 تسجيل الدخول</span>
+    </button>
+
+    <div class="hints">
+      <div class="hints-t">🔑 بيانات الدخول</div>
+      <div class="hr"><span class="hr-role">⚙️ الإدارة</span><span class="hr-cred">admin / admin123</span></div>
+      <div class="hr"><span class="hr-role">👨‍🏫 المعلم</span><span class="hr-cred">teacher / teacher123</span></div>
+      <div class="hr"><span class="hr-role">👨‍🎓 الطالب</span><span class="hr-cred">student / student123</span></div>
+    </div>
+  </div>
+
+  <div class="foot">🌐 school.local · شبكة محلية داخلية · بدون إنترنت</div>
+</div>
+
+<div class="overlay" id="ov">
+  <div class="ov-ic" id="ov-ic">✅</div>
+  <div class="ov-t" id="ov-t">مرحباً!</div>
+  <div class="ov-s">جاري التحويل إلى واجهتك...</div>
+  <div class="bar"><div class="bar-f" id="bar-f"></div></div>
+</div>
+
+<script>
+const USERS = {
+  admin:   { u:'admin',   p:'admin123',   name:'مدير النظام', ic:'⚙️',  page:'admin.html',   col:'c-red'  },
+  teacher: { u:'teacher', p:'teacher123', name:'المعلم',      ic:'👨‍🏫', page:'teacher.html', col:'c-blue' },
+  student: { u:'student', p:'student123', name:'الطالب',      ic:'👨‍🎓', page:'student.html', col:'c-teal' }
+};
+
+let role = 'admin';
+
+function pick(r, el) {
+  role = r;
+  document.querySelectorAll('.role').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  const btn = document.getElementById('btn');
+  btn.className = 'btn ' + USERS[r].col;
+  document.getElementById('un').value = '';
+  document.getElementById('pw').value = '';
+  document.getElementById('err').style.display = 'none';
+  document.getElementById('un').focus();
+}
+
+function login() {
+  const u = USERS[role];
+  const un = document.getElementById('un').value.trim();
+  const pw = document.getElementById('pw').value;
+
+  document.getElementById('err').style.display = 'none';
+  document.getElementById('sp').style.display = 'block';
+  document.getElementById('bt').textContent = 'جاري التحقق...';
+  document.getElementById('btn').disabled = true;
+
+  setTimeout(() => {
+    if(un === u.u && pw === u.p) {
+      document.getElementById('ov-ic').textContent = u.ic;
+      document.getElementById('ov-t').textContent = 'مرحباً، ' + u.name + '!';
+      document.getElementById('ov').classList.add('show');
+      setTimeout(() => { document.getElementById('bar-f').style.width = '100%'; }, 100);
+      setTimeout(() => { window.location.href = u.page; }, 1800);
+    } else {
+      document.getElementById('sp').style.display = 'none';
+      document.getElementById('bt').textContent = '🔐 تسجيل الدخول';
+      document.getElementById('btn').disabled = false;
+      document.getElementById('err').style.display = 'flex';
+      document.getElementById('pw').value = '';
+      const card = document.querySelector('.card');
+      [8,-8,4,0].forEach((x,i)=>setTimeout(()=>card.style.transform=`translateX(${x}px)`,i*80));
+    }
+  }, 700);
+}
+
+window.onload = () => document.getElementById('un').focus();
+</script>
+</body>
+</html>
