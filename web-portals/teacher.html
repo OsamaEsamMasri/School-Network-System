@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>واجهة المعلم — شبكة المدرسة</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0f172a; --bg2:#1e293b; --bg3:#334155;
+  --blue:#2563eb; --blue2:#3b82f6; --blue3:#93c5fd;
+  --green:#10b981; --gold:#f59e0b; --gold2:#fcd34d;
+  --red:#ef4444; --text:#f1f5f9; --text2:#94a3b8; --text3:#475569;
+  --border:rgba(148,163,184,0.12); --r:14px; --r2:8px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+
+.header{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:64px;position:sticky;top:0;z-index:10;}
+.header-logo{display:flex;align-items:center;gap:12px;}
+.logo-ic{width:38px;height:38px;background:linear-gradient(135deg,var(--blue),var(--blue2));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;}
+.logo-t{font-size:15px;font-weight:800;}
+.logo-s{font-size:11px;color:var(--text2);}
+.header-nav{display:flex;gap:4px;}
+.hn{padding:8px 16px;border-radius:var(--r2);cursor:pointer;font-size:13px;font-weight:500;color:var(--text2);transition:all .2s;border:none;background:transparent;font-family:'Tajawal',sans-serif;}
+.hn:hover{background:rgba(255,255,255,0.06);color:var(--text);}
+.hn.active{background:rgba(37,99,235,0.2);color:var(--blue3);}
+.header-right{display:flex;align-items:center;gap:10px;}
+.role-pill{background:rgba(37,99,235,0.15);color:var(--blue3);font-size:11px;font-weight:700;padding:4px 12px;border-radius:99px;border:1px solid rgba(59,130,246,0.25);}
+.clock{font-size:12px;color:var(--text2);font-family:monospace;}
+
+.container{max-width:1100px;margin:0 auto;padding:28px;}
+.page{display:none;animation:fu .3s ease;}
+.page.active{display:block;}
+@keyframes fu{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+.page-hd{margin-bottom:24px;}
+.page-hd h1{font-size:24px;font-weight:800;}
+.page-hd p{font-size:13px;color:var(--text2);margin-top:4px;}
+
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:22px;margin-bottom:18px;}
+.card-t{font-size:14px;font-weight:700;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;align-items:center;gap:8px;}
+
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+
+.stat{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:18px;text-align:center;}
+.stat-v{font-size:28px;font-weight:800;margin-bottom:4px;}
+.stat-l{font-size:12px;color:var(--text2);}
+
+.upload-zone{border:2px dashed rgba(59,130,246,0.3);border-radius:var(--r);padding:40px;text-align:center;cursor:pointer;transition:all .3s;background:rgba(37,99,235,0.03);}
+.upload-zone:hover,.upload-zone.drag{border-color:var(--blue2);background:rgba(37,99,235,0.08);}
+.upload-icon{font-size:52px;margin-bottom:14px;}
+.upload-zone h3{font-size:16px;font-weight:700;margin-bottom:6px;}
+.upload-zone p{font-size:13px;color:var(--text2);}
+
+.form-lbl{font-size:12px;font-weight:600;color:var(--text2);margin-bottom:6px;display:block;}
+.form-inp{width:100%;padding:10px 12px;background:rgba(255,255,255,0.04);border:1px solid rgba(148,163,184,0.2);border-radius:var(--r2);color:var(--text);font-family:'Tajawal',sans-serif;font-size:13px;transition:all .2s;margin-bottom:12px;}
+.form-inp:focus{outline:none;border-color:var(--blue2);}
+select.form-inp option{background:var(--bg2);}
+
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border-radius:var(--r2);font-family:'Tajawal',sans-serif;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all .2s;}
+.btn-p{background:var(--blue);color:#fff;}
+.btn-p:hover{background:#1d4ed8;transform:translateY(-1px);}
+.btn-o{background:transparent;color:var(--blue3);border:1px solid rgba(59,130,246,0.3);}
+.btn-o:hover{background:rgba(59,130,246,0.08);}
+.btn-r{background:var(--red);color:#fff;}
+.btn-g{background:var(--green);color:#fff;}
+.btn-sm{padding:5px 10px;font-size:11px;}
+.btn-full{width:100%;justify-content:center;}
+
+.prog-wrap{display:none;margin-top:14px;}
+.prog{height:8px;background:rgba(255,255,255,0.07);border-radius:99px;overflow:hidden;}
+.prog-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--blue),var(--blue2));transition:width .1s;}
+
+.alert{padding:12px 16px;border-radius:var(--r2);font-size:13px;display:flex;align-items:center;gap:8px;margin-bottom:14px;}
+.alert-ok{background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.2);color:#34d399;}
+.alert-err{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.2);color:#f87171;}
+
+.file-row{display:flex;align-items:center;gap:12px;padding:12px;border-bottom:1px solid rgba(255,255,255,0.04);transition:background .15s;}
+.file-row:hover{background:rgba(59,130,246,0.05);}
+.file-ico{width:38px;height:38px;background:rgba(37,99,235,0.15);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.file-info{flex:1;}
+.file-name{font-size:13px;font-weight:600;margin-bottom:2px;}
+.file-meta{font-size:11px;color:var(--text2);}
+.acts{display:flex;gap:6px;}
+
+.badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:99px;font-size:10px;font-weight:700;}
+.b-blue{background:rgba(37,99,235,0.2);color:var(--blue3);}
+.b-green{background:rgba(16,185,129,0.15);color:#34d399;}
+.b-red{background:rgba(239,68,68,0.15);color:#f87171;}
+.b-gold{background:rgba(245,158,11,0.15);color:var(--gold2);}
+
+.tips{background:rgba(37,99,235,0.06);border:1px solid rgba(59,130,246,0.15);border-radius:var(--r2);padding:14px;font-size:12px;color:var(--text2);line-height:1.8;margin-top:14px;}
+.tips strong{color:var(--blue3);}
+
+#fileInput{display:none;}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-logo">
+    <div class="logo-ic">👨‍🏫</div>
+    <div><div class="logo-t">واجهة المعلم</div><div class="logo-s">school.local</div></div>
+  </div>
+  <nav class="header-nav">
+    <button class="hn active" onclick="go('upload',this)">📤 رفع ملف</button>
+    <button class="hn" onclick="go('myfiles',this)">📁 ملفاتي</button>
+    <button class="hn" onclick="go('stats',this)">📊 إحصائيات</button>
+  </nav>
+  <div class="header-right">
+    <div class="clock" id="clk">--:--</div>
+    <a href="http://192.168.40.10/moodle" style="display:inline-flex;align-items:center;gap:7px;padding:7px 15px;background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff;border-radius:8px;font-family:'Tajawal',sans-serif;font-size:12px;font-weight:700;text-decoration:none;transition:all .2s;box-shadow:0 3px 10px rgba(124,58,237,0.3);" onmouseover="this.style.transform='translateY(-1px)'" onmouseout="this.style.transform='translateY(0)'">🎓 منصة Moodle</a>
+    <div class="role-pill">👨‍🏫 Teacher</div>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- UPLOAD PAGE -->
+  <div class="page active" id="p-upload">
+    <div class="page-hd">
+      <h1>📤 رفع ملف جديد</h1>
+      <p>ارفع الملفات ليتمكن طلابك من تحميلها</p>
+    </div>
+
+    <div class="g2">
+      <div>
+        <div class="card">
+          <div class="card-t">📋 تفاصيل الملف</div>
+          <div id="ok-alert" class="alert alert-ok" style="display:none;">✅ تم رفع الملف بنجاح!</div>
+          <div id="err-alert" class="alert alert-err" style="display:none;">❌ اختر ملفاً أولاً</div>
+
+          <label class="form-lbl">اسم / وصف الملف</label>
+          <input type="text" class="form-inp" id="f-desc" placeholder="مثال: امتحان الفصل الأول - رياضيات">
+
+          <label class="form-lbl">المادة الدراسية</label>
+          <select class="form-inp" id="f-subject">
+            <option>رياضيات</option><option>علوم</option><option>عربي</option>
+            <option>إنجليزي</option><option>تاريخ</option><option>جغرافيا</option><option>أخرى</option>
+          </select>
+
+          <label class="form-lbl">متاح لـ</label>
+          <select class="form-inp" id="f-audience">
+            <option>جميع الطلاب</option>
+            <option>الصف الأول</option>
+            <option>الصف الثاني</option>
+            <option>الصف الثالث</option>
+          </select>
+
+          <label class="form-lbl">نوع الملف</label>
+          <select class="form-inp" id="f-type">
+            <option>واجب</option><option>امتحان</option><option>مادة دراسية</option>
+            <option>ملاحظات</option><option>أخرى</option>
+          </select>
+        </div>
+
+        <div class="tips">
+          <strong>💡 تعليمات الرفع:</strong><br>
+          • يمكنك رفع PDF, Word, Excel, PowerPoint<br>
+          • الطلاب يرون الملفات في واجهتهم الخاصة<br>
+          • يمكنك حذف ملفاتك في أي وقت<br>
+          • <strong>الإدارة فقط</strong> تستطيع حذف ملفات المعلمين الآخرين
+        </div>
+      </div>
+
+      <div>
+        <div class="card">
+          <div class="card-t">📂 اختر الملف</div>
+          <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
+            <input type="file" id="fileInput" onchange="onFileSelect(this)">
+            <div class="upload-icon">📂</div>
+            <h3>اسحب الملف هنا</h3>
+            <p id="fn-display">أو اضغط لاختيار ملف</p>
+          </div>
+
+          <div class="prog-wrap" id="prog-wrap">
+            <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px;">
+              <span>جاري الرفع...</span><span id="pct">0%</span>
+            </div>
+            <div class="prog"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+          </div>
+
+          <div style="display:flex;gap:10px;margin-top:16px;">
+            <button class="btn btn-p" onclick="doUpload()" style="flex:1;justify-content:center;">📤 رفع الملف</button>
+            <button class="btn btn-o" onclick="clearForm()">✕</button>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:0;">
+          <div class="card-t">⚡ آخر ما رفعته</div>
+          <div id="recent-my"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MY FILES PAGE -->
+  <div class="page" id="p-myfiles">
+    <div class="page-hd">
+      <h1>📁 ملفاتي</h1>
+      <p>الملفات التي رفعتها — يمكنك حذفها في أي وقت</p>
+    </div>
+    <div class="card">
+      <div class="card-t">📋 قائمة ملفاتي</div>
+      <div id="my-files-list"></div>
+    </div>
+  </div>
+
+  <!-- STATS PAGE -->
+  <div class="page" id="p-stats">
+    <div class="page-hd">
+      <h1>📊 إحصائياتي</h1>
+      <p>ملخص نشاطك على الشبكة</p>
+    </div>
+    <div class="g3" style="margin-bottom:18px;">
+      <div class="stat"><div class="stat-v" id="s-total">0</div><div class="stat-l">إجمالي ملفاتي</div></div>
+      <div class="stat"><div class="stat-v" id="s-today">0</div><div class="stat-l">رُفعت اليوم</div></div>
+      <div class="stat"><div class="stat-v">VLAN 20</div><div class="stat-l">شبكتك</div></div>
+    </div>
+    <div class="card">
+      <div class="card-t">📁 جميع ملفاتي</div>
+      <div id="stats-files"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const KEY = 'schoolFiles_v2';
+const TEACHER_NAME = 'المعلم';
+
+function getFiles() { return JSON.parse(localStorage.getItem(KEY)||'[]'); }
+function saveFiles(f) { localStorage.setItem(KEY, JSON.stringify(f)); }
+function myFiles() { return getFiles().filter(f => f.uploader === TEACHER_NAME); }
+
+function fileIcon(n) {
+  const e = n.split('.').pop().toLowerCase();
+  if(e==='pdf') return '📄'; if(['doc','docx'].includes(e)) return '📝';
+  if(['xls','xlsx'].includes(e)) return '📊'; if(['ppt','pptx'].includes(e)) return '📋';
+  if(['jpg','jpeg','png'].includes(e)) return '🖼️'; return '📁';
+}
+
+function go(id, el) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.hn').forEach(n=>n.classList.remove('active'));
+  document.getElementById('p-'+id).classList.add('active');
+  el && el.classList.add('active');
+  if(id==='myfiles') renderMyFiles();
+  if(id==='stats') renderStats();
+  if(id==='upload') renderRecent();
+}
+
+function onFileSelect(inp) {
+  if(inp.files[0]) document.getElementById('fn-display').textContent = '✅ ' + inp.files[0].name;
+}
+
+function doUpload() {
+  const inp = document.getElementById('fileInput');
+  const desc = document.getElementById('f-desc').value;
+  const subject = document.getElementById('f-subject').value;
+  const audience = document.getElementById('f-audience').value;
+  const type = document.getElementById('f-type').value;
+
+  if(!inp.files[0]) {
+    show('err-alert'); setTimeout(()=>hide('err-alert'),3000); return;
+  }
+
+  const pw = document.getElementById('prog-wrap');
+  const pf = document.getElementById('prog-fill');
+  const pct = document.getElementById('pct');
+  pw.style.display = 'block';
+
+  let p = 0;
+  const iv = setInterval(() => {
+    p += Math.random()*25;
+    if(p>=100){ p=100; clearInterval(iv); finishUpload(inp.files[0],desc,subject,audience,type); }
+    pf.style.width=p+'%'; pct.textContent=Math.round(p)+'%';
+  }, 120);
+}
+
+function finishUpload(file, desc, subject, audience, type) {
+  const files = getFiles();
+  files.unshift({
+    name: file.name, desc: desc||file.name,
+    subject, audience, type,
+    uploader: TEACHER_NAME,
+    date: new Date().toLocaleDateString('ar'),
+    time: new Date().toLocaleTimeString('ar'),
+    size: (file.size/1024).toFixed(1)+' KB'
+  });
+  saveFiles(files);
+
+  document.getElementById('prog-wrap').style.display='none';
+  show('ok-alert'); setTimeout(()=>hide('ok-alert'),3000);
+  document.getElementById('fileInput').value='';
+  document.getElementById('fn-display').textContent='أو اضغط لاختيار ملف';
+  document.getElementById('f-desc').value='';
+  renderRecent();
+}
+
+function clearForm() {
+  document.getElementById('fileInput').value='';
+  document.getElementById('fn-display').textContent='أو اضغط لاختيار ملف';
+  document.getElementById('f-desc').value='';
+  document.getElementById('prog-wrap').style.display='none';
+}
+
+function renderRecent() {
+  const mf = myFiles().slice(0,3);
+  const el = document.getElementById('recent-my');
+  if(!mf.length){ el.innerHTML='<div style="text-align:center;padding:16px;color:var(--text2);font-size:13px;">لا توجد ملفات بعد</div>'; return; }
+  el.innerHTML = mf.map(f=>`
+    <div class="file-row">
+      <div class="file-ico" style="width:34px;height:34px;font-size:15px;">${fileIcon(f.name)}</div>
+      <div class="file-info"><div class="file-name" style="font-size:13px;">${f.desc||f.name}</div><div class="file-meta">${f.subject} · ${f.date}</div></div>
+      <span class="badge b-green">✅</span>
+    </div>`).join('');
+}
+
+function renderMyFiles() {
+  const mf = myFiles();
+  const el = document.getElementById('my-files-list');
+  if(!mf.length){ el.innerHTML='<div style="text-align:center;padding:30px;color:var(--text2);">لم ترفع أي ملف بعد</div>'; return; }
+  el.innerHTML = mf.map((f,i)=>`
+    <div class="file-row">
+      <div class="file-ico">${fileIcon(f.name)}</div>
+      <div class="file-info">
+        <div class="file-name">${f.desc||f.name}</div>
+        <div class="file-meta">${f.name} · ${f.subject} · ${f.audience} · ${f.date}</div>
+      </div>
+      <span class="badge b-blue">${f.type||'ملف'}</span>
+      <div class="acts">
+        <button class="btn btn-r btn-sm" onclick="delMyFile('${f.name}','${f.date}')">🗑 حذف</button>
+      </div>
+    </div>`).join('');
+}
+
+function delMyFile(name, date) {
+  if(!confirm('حذف هذا الملف؟')) return;
+  const files = getFiles().filter(f=>!(f.name===name && f.date===date && f.uploader===TEACHER_NAME));
+  saveFiles(files); renderMyFiles(); renderStats(); renderRecent();
+}
+
+function renderStats() {
+  const mf = myFiles();
+  const today = new Date().toLocaleDateString('ar');
+  document.getElementById('s-total').textContent = mf.length;
+  document.getElementById('s-today').textContent = mf.filter(f=>f.date===today).length;
+  const el = document.getElementById('stats-files');
+  if(!mf.length){ el.innerHTML='<div style="text-align:center;padding:20px;color:var(--text2);">لا توجد ملفات</div>'; return; }
+  el.innerHTML = mf.map(f=>`
+    <div class="file-row">
+      <div class="file-ico">${fileIcon(f.name)}</div>
+      <div class="file-info"><div class="file-name">${f.desc||f.name}</div><div class="file-meta">${f.subject} · ${f.audience} · ${f.date}</div></div>
+      <span class="badge b-gold">${f.type||'ملف'}</span>
+    </div>`).join('');
+}
+
+function show(id){ document.getElementById(id).style.display='flex'; }
+function hide(id){ document.getElementById(id).style.display='none'; }
+
+setInterval(()=>{
+  const n=new Date();
+  document.getElementById('clk').textContent=String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0');
+},1000);
+
+// Drag & Drop
+const uz = document.getElementById('uploadZone');
+uz.addEventListener('dragover',e=>{e.preventDefault();uz.classList.add('drag');});
+uz.addEventListener('dragleave',()=>uz.classList.remove('drag'));
+uz.addEventListener('drop',e=>{
+  e.preventDefault(); uz.classList.remove('drag');
+  if(e.dataTransfer.files[0]){
+    document.getElementById('fileInput').files=e.dataTransfer.files;
+    document.getElementById('fn-display').textContent='✅ '+e.dataTransfer.files[0].name;
+  }
+});
+
+renderRecent();
+</script>
+</body>
+</html>
