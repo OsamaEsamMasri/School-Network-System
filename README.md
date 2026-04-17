@@ -51,10 +51,9 @@ MainRouter (Cisco IOS)
             └── SW-Servers
                     ├── DNS-DHCP-WEB-Moodle  [192.168.40.10]
                     └── Samba-FTP            [192.168.40.20]
-<img width="979" height="598" alt="لقطة شاشة 2026-04-16 130243" src="https://github.com/user-attachments/assets/5e9249f7-7c5d-4bf2-9ebe-14cf717c6bea" />
 
 ```
-
+<img width="979" height="598" alt="لقطة شاشة 2026-04-16 130243" src="https://github.com/user-attachments/assets/5e9249f7-7c5d-4bf2-9ebe-14cf717c6bea" />
 **Simulation Tool:** GNS3 v2.2 on VMware Workstation  
 **Router/Switch:** Cisco IOS (CiscoIOSvL2 15.2)  
 **Servers:** Ubuntu 24.04 LTS
