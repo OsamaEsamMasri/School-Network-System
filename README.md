@@ -21,6 +21,7 @@
 - [Web Portals](#-web-portals)
 - [Security — ACL](#-security--acl)
 - [How to Run](#-how-to-run)
+- [Project Structure](#-project-structure)
 
 ---
 
@@ -50,9 +51,9 @@ MainRouter (Cisco IOS)
             └── SW-Servers
                     ├── DNS-DHCP-WEB-Moodle  [192.168.40.10]
                     └── Samba-FTP            [192.168.40.20]
-```
-<img width="979" height="598" alt="لقطة شاشة 2026-04-16 130243" src="https://github.com/user-attachments/assets/64c60887-b539-471f-b6b4-2f92c3ac7bf9" />
+<img width="979" height="598" alt="لقطة شاشة 2026-04-16 130243" src="https://github.com/user-attachments/assets/5e9249f7-7c5d-4bf2-9ebe-14cf717c6bea" />
 
+```
 
 **Simulation Tool:** GNS3 v2.2 on VMware Workstation  
 **Router/Switch:** Cisco IOS (CiscoIOSvL2 15.2)  
@@ -295,10 +296,48 @@ sudo chown -R www-data:www-data /var/moodledata /var/www/html/moodle
 # Then open http://192.168.40.10/moodle to complete setup
 ```
 
+---
+
+## 📸 Screenshots
+
+> Add your GNS3 topology screenshots and browser screenshots here
+
+| Screenshot | Description |
+|-----------|-------------|
+| `screenshots/topology.png` | Full GNS3 network topology |
+| `screenshots/vlan-config.png` | show vlan brief output |
+| `screenshots/dhcp-binding.png` | show ip dhcp binding |
+| `screenshots/acl-test.png` | ACL test — packet filtered |
+| `screenshots/moodle.png` | Moodle LMS dashboard |
+| `screenshots/admin-portal.png` | Admin web portal |
+
+---
+
+## 📂 Project Structure
+
+```
+school-local-network/
+├── README.md            
+├── configs/
+│   ├── MainRouter.txt     
+│   └── Switches.txt      
+├── server-configs/
+│   ├── bind9-dns.conf     
+│   └── dhcp-samba-ftp.conf
+├── web-portals/
+│   ├── index.html      
+│   ├── admin.html         
+│   ├── teacher.html        
+│   └── student.html       
+└── docs/
+    ├── report.docx        
+    └── presentation.pptx   
+```
+
 ## 👤 Author
 
-Osama Masri
-Computer Networks Course — Najah National University 
+**Osama Masri**  
+Computer Networks Course — An Najah National University 
 
 ---
 
