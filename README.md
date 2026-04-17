@@ -53,6 +53,8 @@ MainRouter (Cisco IOS)
                     ├── DNS-DHCP-WEB-Moodle  [192.168.40.10]
                     └── Samba-FTP            [192.168.40.20]
 ```
+<img width="979" height="598" alt="لقطة شاشة 2026-04-16 130243" src="https://github.com/user-attachments/assets/64c60887-b539-471f-b6b4-2f92c3ac7bf9" />
+
 
 **Simulation Tool:** GNS3 v2.2 on VMware Workstation  
 **Router/Switch:** Cisco IOS (CiscoIOSvL2 15.2)  
