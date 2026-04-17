@@ -338,9 +338,4 @@ school-local-network/
 **Osama Masri**  
 Computer Networks Course — An Najah National University 
 
----
 
-<div align="center">
-  <strong>Built with 💙 using GNS3 + Cisco IOS + Ubuntu + Moodle</strong><br>
-  <em>school.local — 100% Internet-Free Educational Network</em>
-</div>
